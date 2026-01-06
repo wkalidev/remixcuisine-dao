@@ -175,11 +175,12 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Author
 
-**zcodebase**
+**zcodebase(wkalidev)**
 
 - Website: [Coming Soon]
-- Twitter: [@RemixCuisineDAO](https://twitter.com/RemixCuisineDAO)
-
+- Twitter: [Coming Soon]
+- Discord: [Coming Soon]
+  
 ## 🙏 Acknowledgments
 
 - [Claude AI](https://anthropic.com) - AI recipe generation
@@ -189,7 +190,7 @@ This project is licensed under the MIT License.
 
 ## 📞 Support
 
-For support, email support@remixcuisine.io or join our Discord server.
+For support, email wkalidev@gmail.com or join our Discord server.
 
 ---
 
