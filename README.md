@@ -169,6 +169,61 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## ⚠️ Development Status & Roadmap
+
+### 🚧 AI Recipe Generation (In Progress)
+
+The AI-powered recipe generation feature uses Anthropic's Claude API, which requires an API key and funding to operate. The interface is fully functional and ready - we're currently raising funds to activate the AI backend!
+
+**Current Status:**
+- ✅ Cyberpunk interface complete
+- ✅ Form and UX ready
+- ✅ NFT marketplace designed
+- ⏳ Claude API integration pending funding
+
+**Estimated API Cost:** ~$20/month for moderate usage
+
+### 💝 Help Us Activate AI Features!
+
+**Every sponsor helps us reach our funding goals:**
+- 🎯 **Goal:** 4 sponsors at $5/month = API activated!
+- 💪 **Current:** Building our first supporter base
+- 🚀 **Timeline:** API goes live once funded
+
+[**Become a Sponsor**](https://github.com/sponsors/wkalidev) and help bring AI recipe generation to life! 
+
+Your support directly funds:
+- 💰 Claude API costs
+- 🛠️ New features and improvements  
+- 📚 Documentation and tutorials
+- 🐛 Maintenance and bug fixes
+
+**Building in public. Join the journey!** 🍳✨
+
+---
+
+## 🗺️ Roadmap
+
+### Phase 1: Foundation (Current)
+- [x] Core interface
+- [x] GitHub Sponsors setup
+- [x] Deployment to Vercel
+- [ ] Claude API activation (pending funding)
+
+### Phase 2: Features (Next)
+- [ ] Real AI recipe generation
+- [ ] Recipe NFT minting
+- [ ] User authentication
+- [ ] Recipe database
+
+### Phase 3: Community (Future)
+- [ ] Token system ($REMIX)
+- [ ] Cooking challenges
+- [ ] Community voting
+- [ ] Mobile app
+
+**Want to influence the roadmap?** Sponsors get priority feature requests! 💙
+
 ## 📄 License
 
 This project is licensed under the MIT License.
