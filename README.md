@@ -177,9 +177,9 @@ This project is licensed under the MIT License.
 
 **zcodebase(wkalidev)**
 
-- Website: [Coming Soon]
-- Twitter: [Coming Soon]
-- Discord: [Coming Soon]
+- Website: https://remixcuisine-dao.vercel.app/
+- Twitter: https://x.com/RemixCuisineDAO
+- Discord: https://discord.gg/EPR9WThd
   
 ## 🙏 Acknowledgments
 
