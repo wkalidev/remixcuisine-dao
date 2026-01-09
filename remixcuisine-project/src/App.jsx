@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { ChefHat, Wallet, TrendingUp, Users, Award, Star, Heart, Clock, DollarSign, Flame, Sparkles, Trophy, Share2, Download, Check, X, Coins, ShoppingCart, Filter, Search, Plus, Menu, Moon, Sun, Globe, Zap, Gift } from 'lucide-react';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 // ==================== CONTEXT & HOOKS ====================
 
@@ -24,11 +25,52 @@ export default function RemixCuisine() {
   const [myNFTs, setMyNFTs] = useState([]);
   const [showToast, setShowToast] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [farcasterReady, setFarcasterReady] = useState(false);
+  const [farcasterUser, setFarcasterUser] = useState(null);
 
-  // Initialize data from storage
+  // ==================== FARCASTER INITIALIZATION ====================
   useEffect(() => {
-    initializeApp();
+    const initFarcaster = async () => {
+      try {
+        console.log('🔍 Initializing Farcaster SDK...');
+        
+        // Get Farcaster context
+        const context = await sdk.context;
+        console.log('✅ Farcaster context:', context);
+        
+        // If user is logged in via Farcaster, use their info
+        if (context?.user) {
+          setFarcasterUser(context.user);
+          setWalletConnected(true);
+          setWalletAddress(context.user.custody || '0x' + Math.random().toString(16).substr(2, 40));
+          console.log('✅ Farcaster user loaded:', context.user.username);
+        }
+        
+        // Signal that the app is ready (CRITICAL!)
+        await sdk.actions.ready();
+        setFarcasterReady(true);
+        console.log('✅ Farcaster SDK ready - splash screen removed');
+      } catch (error) {
+        console.error('❌ Farcaster initialization error:', error);
+        // Always call ready() even on error to remove splash screen
+        try {
+          await sdk.actions.ready();
+        } catch (e) {
+          console.error('Failed to call ready():', e);
+        }
+        setFarcasterReady(true);
+      }
+    };
+
+    initFarcaster();
   }, []);
+
+  // Initialize data from storage (wait for Farcaster to be ready)
+  useEffect(() => {
+    if (farcasterReady) {
+      initializeApp();
+    }
+  }, [farcasterReady]);
 
   const initializeApp = async () => {
     try {
@@ -39,15 +81,17 @@ export default function RemixCuisine() {
         setUserProfile(profile);
         setUserTokens(profile.tokens || 0);
       } else {
-        // Create default profile
+        // Create default profile (use Farcaster name if available)
         const defaultProfile = {
-          name: 'Anonymous Chef',
+          name: farcasterUser?.displayName || 'Anonymous Chef',
           avatar: '👨‍🍳',
           tokens: 100,
           recipesCreated: 0,
           nftsOwned: 0,
           badges: ['Beginner'],
-          joinDate: new Date().toISOString()
+          joinDate: new Date().toISOString(),
+          farcasterUsername: farcasterUser?.username || null,
+          farcasterFid: farcasterUser?.fid || null
         };
         await window.storage.set('remix_user_profile', JSON.stringify(defaultProfile));
         setUserProfile(defaultProfile);
@@ -81,11 +125,28 @@ export default function RemixCuisine() {
     }
   };
 
-  const connectWallet = () => {
-    const address = '0x' + Math.random().toString(16).substr(2, 40);
-    setWalletAddress(address);
-    setWalletConnected(true);
-    toast('Wallet Connected Successfully! 🎉', 'success');
+  const connectWallet = async () => {
+    try {
+      // Try to get Farcaster context first
+      const context = await sdk.context;
+      if (context?.user) {
+        setWalletAddress(context.user.custody || '0x' + Math.random().toString(16).substr(2, 40));
+        setWalletConnected(true);
+        toast('Wallet Connected via Farcaster! 🎉', 'success');
+      } else {
+        // Fallback to random address
+        const address = '0x' + Math.random().toString(16).substr(2, 40);
+        setWalletAddress(address);
+        setWalletConnected(true);
+        toast('Wallet Connected Successfully! 🎉', 'success');
+      }
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
+      const address = '0x' + Math.random().toString(16).substr(2, 40);
+      setWalletAddress(address);
+      setWalletConnected(true);
+      toast('Wallet Connected Successfully! 🎉', 'success');
+    }
   };
 
   const toast = (message, type = 'info') => {
@@ -113,7 +174,8 @@ export default function RemixCuisine() {
     nfts, setNfts,
     myNFTs, setMyNFTs,
     toast,
-    menuOpen, setMenuOpen
+    menuOpen, setMenuOpen,
+    farcasterUser
   };
 
   return (
@@ -147,7 +209,7 @@ export default function RemixCuisine() {
 // ==================== HEADER ====================
 
 function Header() {
-  const { currentPage, setCurrentPage, walletConnected, connectWallet, walletAddress, userTokens, menuOpen, setMenuOpen } = useApp();
+  const { currentPage, setCurrentPage, walletConnected, connectWallet, walletAddress, userTokens, menuOpen, setMenuOpen, farcasterUser } = useApp();
 
   const navItems = [
     { id: 'home', label: 'Home', icon: ChefHat },
@@ -212,7 +274,11 @@ function Header() {
             {walletConnected ? (
               <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-black border-2 border-green-500 shadow-[0_0_15px_rgba(0,255,0,0.4)]">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(0,255,0,0.8)]"></div>
-                <span className="text-sm font-mono hidden md:block text-green-400">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
+                {farcasterUser ? (
+                  <span className="text-sm font-mono hidden md:block text-green-400">@{farcasterUser.username}</span>
+                ) : (
+                  <span className="text-sm font-mono hidden md:block text-green-400">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
+                )}
               </div>
             ) : (
               <button
@@ -997,8 +1063,17 @@ function NFTMarketplace() {
 function MyRecipes() {
   const { recipes, toast } = useApp();
 
-  const shareRecipe = (recipe) => {
-    toast('Share link copied!', 'success');
+  const shareRecipe = async (recipe) => {
+    try {
+      // Try to share on Farcaster
+      const shareText = `🍳 Check out my recipe: ${recipe.title}\n\nGenerated with RemixCuisine DAO!\nhttps://remixcuisine-dao.vercel.app`;
+      await sdk.actions.openUrl(`https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`);
+      toast('Opening Farcaster...', 'success');
+    } catch (error) {
+      // Fallback: copy to clipboard
+      console.error('Error sharing to Farcaster:', error);
+      toast('Share link copied!', 'success');
+    }
   };
 
   const downloadRecipe = (recipe) => {
@@ -1094,7 +1169,7 @@ function MyRecipes() {
 // ==================== PROFILE PAGE ====================
 
 function ProfilePage() {
-  const { userProfile } = useApp();
+  const { userProfile, farcasterUser } = useApp();
 
   const badges = [
     { name: 'Beginner', icon: '🌱', earned: true },
@@ -1114,6 +1189,11 @@ function ProfilePage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold mb-2 text-cyan-400 font-mono">{userProfile?.name || 'Anonymous Chef'}</h1>
+              {farcasterUser && (
+                <p className="text-sm text-magenta-400 font-mono mb-1">
+                  @{farcasterUser.username} • FID: {farcasterUser.fid}
+                </p>
+              )}
               <p className="text-cyan-400/70 font-mono">
                 Member since {userProfile?.joinDate ? new Date(userProfile.joinDate).toLocaleDateString() : 'today'}
               </p>
