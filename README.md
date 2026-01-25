@@ -1,252 +1,251 @@
-# 🍳 RemixCuisine DAO
+# 🍕 RemixCuisine DAO - Daily Lucky Draw Mini App
 
-> AI-powered Web3 community cooking platform with neon cyberpunk aesthetic
+Une Mini App Base pour gagner des USDC quotidiennement ! Style cyberpunk/neon avec intégration complète sur Base Network.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react)
-![Tailwind](https://img.shields.io/badge/Tailwind-3.4.0-38B2AC?logo=tailwind-css)
-![Vite](https://img.shields.io/badge/Vite-5.0.8-646CFF?logo=vite)
+## 🎯 Features
 
-## ✨ Features
-
-- 🤖 **AI Recipe Generator** - Generate unique recipes with Claude AI
-- 🎨 **NFT Marketplace** - Buy and sell recipe NFTs
-- 💰 **$REMIX Token System** - Earn tokens for creating and sharing
-- 👤 **User Profiles** - Track stats, badges, and achievements
-- 🏆 **Weekly Challenges** - Compete and earn rewards
-- 🌐 **Web3 Integration** - Wallet connection and blockchain support
-- 🎮 **Futuristic Neon UI** - Cyberpunk vintage aesthetic
+- ✅ **Daily Lucky Draw** - Loterie quotidienne avec USDC
+- ✅ **Base Mini App** - Intégration Farcaster + Base App
+- ✅ **Gasless UX** - Paymaster pour sponsoriser le gas
+- ✅ **Smart Contract** - Contrat Solidity sécurisé
+- ✅ **Cyberpunk Design** - Neon pink/cyan aesthetic
+- ✅ **OnchainKit** - Composants Web3 modernes
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- Node.js 18+ and npm
-- Git
-
-### Installation
+### 1. Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/remixcuisine-dao.git
-cd remixcuisine-dao
-
-# Install dependencies
+cd remixcuisine-miniapp
 npm install
+```
 
-# Start development server
+### 2. Configuration
+
+Copie `.env.example` vers `.env.local` et remplis les variables:
+
+```bash
+cp .env.example .env.local
+```
+
+**Variables requises:**
+- `NEXT_PUBLIC_ONCHAINKIT_PROJECT_ID` - De https://portal.cdp.coinbase.com/
+- `NEXT_PUBLIC_CDP_API_KEY` - Pour Paymaster
+- `NEXT_PUBLIC_LUCKY_DRAW_CONTRACT` - Après déploiement du contrat
+
+### 3. Développement Local
+
+```bash
 npm run dev
 ```
 
-Visit `http://localhost:3000` in your browser.
+Ouvre http://localhost:3000
 
-## 📦 Build for Production
+## 📝 Déploiement du Smart Contract
+
+### Option 1: Remix IDE (Recommandé pour débutants)
+
+1. Va sur https://remix.ethereum.org/
+2. Crée un nouveau fichier `LuckyDraw.sol`
+3. Copie le contrat depuis `src/contracts/LuckyDraw.sol`
+4. Compile avec Solidity 0.8.20+
+5. Déploie sur Base Mainnet ou Base Sepolia:
+   - Constructor args:
+     - `_usdc`: `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` (Base Mainnet)
+     - `_daoTreasury`: Ton wallet address
+
+6. Copie l'adresse du contrat déployé dans `.env.local`
+
+### Option 2: Hardhat/Foundry
 
 ```bash
-# Create optimized build
+# Avec Hardhat
+npx hardhat run scripts/deploy.js --network base
+
+# Avec Foundry
+forge create src/contracts/LuckyDraw.sol:LuckyDraw \
+  --rpc-url https://mainnet.base.org \
+  --private-key $PRIVATE_KEY \
+  --constructor-args 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913 $YOUR_TREASURY
+```
+
+## 🌐 Déploiement Vercel
+
+### 1. Deploy sur Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=YOUR_REPO_URL)
+
+Ou manuellement:
+
+```bash
 npm run build
-
-# Preview production build
-npm run preview
+vercel --prod
 ```
 
-## 🌐 Deployment
+### 2. Configure les Variables d'Environnement
 
-### Deploy to Vercel (Recommended)
+Dans Vercel Dashboard → Settings → Environment Variables, ajoute:
+- `NEXT_PUBLIC_ONCHAINKIT_PROJECT_ID`
+- `NEXT_PUBLIC_CDP_API_KEY`
+- `NEXT_PUBLIC_LUCKY_DRAW_CONTRACT`
 
-```bash
-# Install Vercel CLI
-npm install -g vercel
+### 3. Désactive Vercel Authentication
 
-# Deploy
-vercel
+⚠️ **IMPORTANT** - Sans ça, le manifest ne sera pas accessible!
+
+1. Va dans Vercel Dashboard
+2. Settings → Deployment Protection
+3. Toggle "Vercel Authentication" à **OFF**
+4. Save
+
+## 🔗 Configuration Base Mini App
+
+### 1. Update Manifest
+
+Édite `public/.well-known/farcaster.json`:
+- Remplace toutes les URLs par ton domaine Vercel
+- Garde la structure existante
+
+### 2. Account Association
+
+1. Va sur https://www.base.dev/
+2. Entre ton URL: `your-app.vercel.app`
+3. Clique "Submit"
+4. Clique "Verify" et suis les instructions
+5. Copie l'objet `accountAssociation` généré
+6. Colle-le dans `farcaster.json`
+7. Redéploie sur Vercel
+
+### 3. Vérifie le Manifest
+
+Teste que ton manifest est accessible:
+```
+https://your-app.vercel.app/.well-known/farcaster.json
 ```
 
-### Deploy to Netlify
+Tu devrais voir le JSON complet.
 
-```bash
-# Install Netlify CLI
-npm install -g netlify-cli
+## 🎨 Assets Requis
 
-# Deploy
-netlify deploy --prod
+Crée ces images dans ton style cyberpunk/neon:
+
+### icon.png (512x512px)
+- Logo RemixCuisine
+- Background transparent
+- Style: Neon pink/cyan
+
+### splash.png (1200x630px)
+- Écran de chargement
+- Texte: "RemixCuisine Lucky Draw"
+- Background: Cyberpunk grid
+
+### og-image.png (1200x630px)
+- Preview dans le feed
+- Include: Logo + "Win USDC Daily"
+
+### screenshots (1080x1920px)
+- `screenshot1.png` - Main draw interface
+- `screenshot2.png` - Winners list
+
+Place tous les assets dans `/public/`
+
+## 🧪 Test sur Base App
+
+### 1. Via URL directe
+```
+https://base.app/frame/your-app.vercel.app
 ```
 
-## 🎨 Tech Stack
+### 2. Via Farcaster Cast
+Cast ton URL sur Farcaster et elle devrait render comme une Mini App
 
-- **Frontend**: React 18, Vite
-- **Styling**: Tailwind CSS with custom neon theme
-- **Icons**: Lucide React
-- **AI**: Claude API (Anthropic)
-- **Storage**: Window.storage API for persistence
-- **Web3**: (Ready for integration)
+## 📊 Smart Contract Functions
 
-## 🔧 Configuration
+### User Functions
+```solidity
+// Entre le draw (coûte 0.1 USDC)
+enterDraw()
 
-### Claude API
-
-To enable AI recipe generation, you need a Claude API key:
-
-1. Get your API key from [Anthropic Console](https://console.anthropic.com/)
-2. The app uses the API directly in the browser (no backend required)
-3. API calls are made from the RecipeGenerator component
-
-### Environment Variables (Optional)
-
-Create a `.env` file:
-
-```env
-VITE_CLAUDE_API_KEY=your_api_key_here
-VITE_APP_NAME=RemixCuisine DAO
+// View functions
+getCurrentPrizePool() → uint256
+getTotalEntries() → uint256
 ```
 
-## 📁 Project Structure
+### Admin Functions (Owner only)
+```solidity
+// Sélectionne le winner du jour
+selectWinner()
 
-```
-remixcuisine-dao/
-├── public/              # Static assets
-├── src/
-│   ├── App.jsx         # Main application component
-│   ├── main.jsx        # Entry point
-│   └── index.css       # Global styles + Tailwind
-├── index.html          # HTML template
-├── package.json        # Dependencies
-├── vite.config.js      # Vite configuration
-├── tailwind.config.js  # Tailwind configuration
-└── README.md           # Documentation
+// Emergency
+emergencyWithdraw()
 ```
 
-## 🎯 Key Components
+## 💡 Améliorer la Randomisation
 
-- **HomePage**: Landing page with stats, challenges, and trending recipes
-- **RecipeGenerator**: AI-powered recipe creation with Claude
-- **NFTMarketplace**: Browse and purchase recipe NFTs
-- **MyRecipes**: Personal recipe collection
-- **ProfilePage**: User stats and badges
-- **TokensPage**: $REMIX token management and rewards
+⚠️ Le contrat actuel utilise une randomisation simple (unsafe).
 
-## 💾 Data Persistence
+**Pour production, utilise Chainlink VRF:**
 
-The app uses `window.storage` API for data persistence:
+1. Installe `@chainlink/contracts`
+2. Implemente `VRFConsumerBaseV2`
+3. Configure VRF Subscription sur Base
+4. Update `selectWinner()` pour utiliser VRF
 
-- User profiles
-- Generated recipes
-- NFT ownership
-- Token balances
+Documentation: https://docs.chain.link/vrf/v2/subscription/examples/get-a-random-number
 
-Data is stored locally and persists across sessions.
+## 🔐 Sécurité
 
-## 🎨 Design System
+- ✅ ReentrancyGuard sur toutes les functions critiques
+- ✅ Ownable pour admin functions
+- ✅ Input validation
+- ⚠️ Randomisation à améliorer avec Chainlink VRF
+- ✅ Emergency withdraw pour l'owner
 
-### Colors
+## 📱 Mobile Testing
 
-- **Neon Cyan**: `#00FFFF` - Primary
-- **Neon Magenta**: `#FF00FF` - Secondary
-- **Neon Green**: `#00FF00` - Success
-- **Neon Pink**: `#FF1493` - Accents
-- **Neon Yellow**: `#FFFF00` - Warnings
+### Activer Eruda (Console mobile)
+```typescript
+// Dans src/app/layout.tsx
+{process.env.NODE_ENV === 'development' && (
+  <Script src="https://cdn.jsdelivr.net/npm/eruda" />
+)}
+```
 
-### Typography
+## 🎯 Roadmap
 
-- **Font Family**: Monospace (system-ui monospace)
-- **Headers**: UPPERCASE with gradient animations
-- **Body**: Cyan/Magenta tones
+- [x] Basic Lucky Draw
+- [x] Base Mini App Integration
+- [x] Cyberpunk Design
+- [ ] Chainlink VRF Integration
+- [ ] Multi-prize tiers
+- [ ] NFT rewards pour winners
+- [ ] Recipe submission system
+- [ ] DAO governance
+- [ ] Mobile push notifications
 
-### Effects
+## 🛠 Tech Stack
 
-- Neon glow shadows
-- Animated gradients
-- Grid backgrounds
-- Hover scale effects
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## ⚠️ Development Status & Roadmap
-
-### 🚧 AI Recipe Generation (In Progress)
-
-The AI-powered recipe generation feature uses Anthropic's Claude API, which requires an API key and funding to operate. The interface is fully functional and ready - we're currently raising funds to activate the AI backend!
-
-**Current Status:**
-- ✅ Cyberpunk interface complete
-- ✅ Form and UX ready
-- ✅ NFT marketplace designed
-- ⏳ Claude API integration pending funding
-
-**Estimated API Cost:** ~$20/month for moderate usage
-
-### 💝 Help Us Activate AI Features!
-
-**Every sponsor helps us reach our funding goals:**
-- 🎯 **Goal:** 4 sponsors at $5/month = API activated!
-- 💪 **Current:** Building our first supporter base
-- 🚀 **Timeline:** API goes live once funded
-
-[**Become a Sponsor**](https://github.com/sponsors/wkalidev) and help bring AI recipe generation to life! 
-
-Your support directly funds:
-- 💰 Claude API costs
-- 🛠️ New features and improvements  
-- 📚 Documentation and tutorials
-- 🐛 Maintenance and bug fixes
-
-**Building in public. Join the journey!** 🍳✨
-
----
-
-## 🗺️ Roadmap
-
-### Phase 1: Foundation (Current)
-- [x] Core interface
-- [x] GitHub Sponsors setup
-- [x] Deployment to Vercel
-- [ ] Claude API activation (pending funding)
-
-### Phase 2: Features (Next)
-- [ ] Real AI recipe generation
-- [ ] Recipe NFT minting
-- [ ] User authentication
-- [ ] Recipe database
-
-### Phase 3: Community (Future)
-- [ ] Token system ($REMIX)
-- [ ] Cooking challenges
-- [ ] Community voting
-- [ ] Mobile app
-
-**Want to influence the roadmap?** Sponsors get priority feature requests! 💙
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 👨‍💻 Author
-
-**zcodebase(wkalidev)**
-
-- Website: https://remixcuisine-dao.vercel.app/
-- Twitter: https://x.com/RemixCuisineDAO
-- Discord: https://discord.gg/EPR9WThd
-  
-## 🙏 Acknowledgments
-
-- [Claude AI](https://anthropic.com) - AI recipe generation
-- [Lucide Icons](https://lucide.dev) - Icon library
-- [Tailwind CSS](https://tailwindcss.com) - Styling framework
-- [Vite](https://vitejs.dev) - Build tool
+- **Framework:** Next.js 15 + TypeScript
+- **Styling:** Tailwind CSS + Custom Neon Theme
+- **Web3:** Wagmi + Viem
+- **UI:** OnchainKit (Coinbase)
+- **Smart Contract:** Solidity 0.8.20
+- **Network:** Base (L2)
+- **Token:** USDC
 
 ## 📞 Support
 
-For support, email wkalidev@gmail.com or join our Discord server.
+Des questions? Trouve-moi sur:
+- Farcaster: @zcodebase
+- Twitter/X: @zcodebase
+- Email: (ton email)
+
+## 📄 License
+
+MIT
 
 ---
 
-© 2026 RemixCuisine DAO. All rights reserved by zcodebase.
+**Built with 💜 by zcodebase**
+
+*Bon appétit et bonne chance! 🍕🎲*

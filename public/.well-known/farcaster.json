@@ -1,0 +1,33 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEyMzQ1LCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4...",
+    "payload": "eyJkb21haW4iOiJyZW1peGN1aXNpbmUtZGFvLnZlcmNlbC5hcHAifQ==",
+    "signature": "MHg..."
+  },
+  "frame": {
+    "version": "next",
+    "imageUrl": "https://remixcuisine-dao.vercel.app/og-image.png",
+    "button": {
+      "title": "🎲 Enter Daily Draw",
+      "action": {
+        "type": "launch_frame",
+        "name": "RemixCuisine Lucky Draw",
+        "url": "https://remixcuisine-dao.vercel.app",
+        "splashImageUrl": "https://remixcuisine-dao.vercel.app/splash.png",
+        "splashBackgroundColor": "#FF00FF"
+      }
+    }
+  },
+  "miniApp": {
+    "name": "RemixCuisine Lucky Draw",
+    "subtitle": "Win USDC Daily on Base 🍕💰",
+    "description": "AI-powered Web3 cooking platform meets crypto prizes! Enter the daily lottery for a chance to win USDC on Base Network. Mix recipes, earn tokens, and join the food revolution!",
+    "icon": "https://remixcuisine-dao.vercel.app/icon.png",
+    "primaryCategory": "gaming",
+    "tags": ["lottery", "gaming", "defi", "food", "social"],
+    "screenshots": [
+      "https://remixcuisine-dao.vercel.app/screenshot1.png",
+      "https://remixcuisine-dao.vercel.app/screenshot2.png"
+    ]
+  }
+}
