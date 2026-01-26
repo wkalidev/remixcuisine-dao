@@ -1,15 +1,22 @@
 'use client';
-
-import { ReactNode } from 'react';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'wagmi/chains';
-import { WagmiProvider, http, createConfig } from 'wagmi';
+import { http, WagmiProvider, createConfig } from 'wagmi';
+import { coinbaseWallet } from 'wagmi/connectors';
+import { ReactNode } from 'react';
 
 const queryClient = new QueryClient();
 
+// Configuration Wagmi simplifiée
 const wagmiConfig = createConfig({
   chains: [base],
+  connectors: [
+    coinbaseWallet({
+      appName: 'RemixCuisine DAO',
+      preference: 'smartWalletOnly',
+    }),
+  ],
   transports: {
     [base.id]: http(),
   },
@@ -23,12 +30,6 @@ export function Providers({ children }: { children: ReactNode }) {
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_ID}
           chain={base}
-          config={{
-            appearance: {
-              mode: 'dark',
-              theme: 'cyberpunk',
-            },
-          }}
         >
           {children}
         </OnchainKitProvider>
