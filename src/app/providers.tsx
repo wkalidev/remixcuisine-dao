@@ -7,6 +7,16 @@ import { WagmiProvider, createConfig, http } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { ReactNode } from 'react';
 
+// Chain minimal pour OnchainKit
+const baseChain = {
+  id: 8453,
+  name: 'Base',
+  nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://mainnet.base.org'] },
+  },
+} as const;
+
 const config = createConfig({
   chains: [base],
   connectors: [
@@ -27,7 +37,7 @@ export function Providers({ children }: { children: ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_ID}
-          chain={base}
+          chain={baseChain as any}
         >
           {children}
         </OnchainKitProvider>
