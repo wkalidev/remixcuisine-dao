@@ -103,14 +103,14 @@ Dans Vercel Dashboard → Settings → Environment Variables, ajoute:
 ### 1. Update Manifest
 
 Édite `public/.well-known/farcaster.json`:
-- Remplace toutes les URLs par ton domaine Vercel
+- Remplace toutes les URL par ton domaine Vercel
 - Garde la structure existante
 
 ### 2. Account Association
 
 1. Va sur https://www.base.dev/
-2. Entre ton URL: `your-app.vercel.app`
-3. Clique "Submit"
+2. Entre ton URL: `[https://remixcuisine-dao.vercel.app/]`
+3. Click "Submit."
 4. Clique "Verify" et suis les instructions
 5. Copie l'objet `accountAssociation` généré
 6. Colle-le dans `farcaster.json`
@@ -118,16 +118,16 @@ Dans Vercel Dashboard → Settings → Environment Variables, ajoute:
 
 ### 3. Vérifie le Manifest
 
-Teste que ton manifest est accessible:
+Teste que ton manifeste est accessible:
 ```
-https://your-app.vercel.app/.well-known/farcaster.json
+https://remixcuisine-dao.vercel.app/.well-known/farcaster.json
 ```
 
 Tu devrais voir le JSON complet.
 
 ## 🎨 Assets Requis
 
-Crée ces images dans ton style cyberpunk/neon:
+Crée ces images dans ton style cyberpunk/néon:
 
 ### icon.png (512x512px)
 - Logo RemixCuisine
@@ -153,7 +153,7 @@ Place tous les assets dans `/public/`
 
 ### 1. Via URL directe
 ```
-https://base.app/frame/your-app.vercel.app
+https://base.app/frame/remixcuisine-dao.vercel.app
 ```
 
 ### 2. Via Farcaster Cast
@@ -186,8 +186,8 @@ emergencyWithdraw()
 
 **Pour production, utilise Chainlink VRF:**
 
-1. Installe `@chainlink/contracts`
-2. Implemente `VRFConsumerBaseV2`
+1. Installe `@chainlink/contracts.`
+2. Implement `VRFConsumerBaseV2.`
 3. Configure VRF Subscription sur Base
 4. Update `selectWinner()` pour utiliser VRF
 
@@ -195,11 +195,11 @@ Documentation: https://docs.chain.link/vrf/v2/subscription/examples/get-a-random
 
 ## 🔐 Sécurité
 
-- ✅ ReentrancyGuard sur toutes les functions critiques
+- ✅ ReentrancyGuard sur toutes les fonctions critiques
 - ✅ Ownable pour admin functions
 - ✅ Input validation
 - ⚠️ Randomisation à améliorer avec Chainlink VRF
-- ✅ Emergency withdraw pour l'owner
+- ✅ Emergency withdrawal pour l'owner
 
 ## 📱 Mobile Testing
 
@@ -236,9 +236,9 @@ Documentation: https://docs.chain.link/vrf/v2/subscription/examples/get-a-random
 ## 📞 Support
 
 Des questions? Trouve-moi sur:
-- Farcaster: @zcodebase
-- Twitter/X: @zcodebase
-- Email: (ton email)
+- Farcaster: @willywarrior
+- Twitter/X: @willycodexwar
+- Email: (mtech9028@gmail.com)
 
 ## 📄 License
 
@@ -246,6 +246,6 @@ MIT
 
 ---
 
-**Built with 💜 by zcodebase**
+**Built with 💜 by (wkalidev)zcodebase**
 
 *Bon appétit et bonne chance! 🍕🎲*
