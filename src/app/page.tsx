@@ -19,7 +19,6 @@ export default function HomePage() {
     <main className="min-h-screen cyber-grid">
       {/* Header */}
       <header className="relative z-10 py-8 px-4 sm:px-6 lg:px-8">
-        <meta name="virtual-protocol-site-verification" content="1be131e1e6ea9a3cf87abd7d2c40a8a7" />
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
             <h1 className="text-5xl sm:text-7xl font-bold mb-4">
@@ -33,6 +32,7 @@ export default function HomePage() {
       </header>
 
       {/* Main Content */}
+      <meta name="virtual-protocol-site-verification" content="1be131e1e6ea9a3cf87abd7d2c40a8a7" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         {/* Stats Grid */}
         <StatsDisplay />
