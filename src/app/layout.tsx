@@ -21,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/icon.png" />
+        <meta name="virtual-protocol-site-verification" content="1be131e1e6ea9a3cf87abd7d2c40a8a7" />
       </head>
       <body className="bg-cyber-darker text-white">
         <Providers>{children}</Providers>
